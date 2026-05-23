@@ -54,6 +54,25 @@ npm run build
 npm run preview
 ```
 
+## GitHub Pages 自动部署
+
+当前项目已配置 GitHub Actions 自动部署到 GitHub Pages。
+
+发布地址：
+
+- `https://imp1024.github.io/Type_Indicator/mbti/`
+
+首次启用时，请到 GitHub 仓库设置中确认：
+
+1. 打开 `Settings -> Pages`
+2. 在 `Source` 中选择 `GitHub Actions`
+
+自动部署工作流文件：
+
+- [.github/workflows/deploy-mbti-pages.yml](../.github/workflows/deploy-mbti-pages.yml)
+
+后续只要向 `master` 分支推送 `mbti/` 目录相关变更，GitHub 就会自动执行构建并发布 `mbti/dist/`。
+
 ## 常用命令汇总
 
 ```bash
@@ -98,7 +117,27 @@ cloudflared --version
 npm run dev
 ```
 
-再打开另一个终端执行：
+请以终端里实际显示的 `Local` 地址为准。例如：
+
+```text
+http://localhost:5174/Type_Indicator/mbti/
+```
+
+如果端口不是 `5173`，需要按实际端口启动 tunnel。
+
+在 PowerShell 中：
+
+```powershell
+$env:TUNNEL_PORT=5174; npm run tunnel
+```
+
+在 cmd 中：
+
+```cmd
+set TUNNEL_PORT=5174 && npm run tunnel
+```
+
+如果 Vite 实际就是 `5173`，也可以直接执行：
 
 ```bash
 npm run tunnel
@@ -110,7 +149,17 @@ npm run tunnel
 https://xxxx.trycloudflare.com
 ```
 
-外部设备可直接通过该地址访问当前页面。
+如果项目配置了 `base` 路径，例如当前项目使用：
+
+```text
+/Type_Indicator/mbti/
+```
+
+那么外部访问时请优先打开：
+
+```text
+https://xxxx.trycloudflare.com/Type_Indicator/mbti/
+```
 
 ### 方式二：暴露预览环境
 
@@ -118,8 +167,31 @@ https://xxxx.trycloudflare.com
 
 ```bash
 npm run preview
-npm run tunnel:preview
 ```
+
+然后按 preview 实际端口启动 tunnel。
+
+PowerShell 示例：
+
+```powershell
+$env:TUNNEL_PORT=4173; npm run tunnel
+```
+
+如果 preview 实际端口不是 `4173`，同样要替换成终端里显示的真实端口。
+
+### 常见问题
+
+#### 1. 出现 `502 Bad Gateway`
+通常表示 tunnel 已启动，但连不到本地 origin 服务。常见原因：
+
+- `npm run dev` / `npm run preview` 没有运行
+- tunnel 连的端口不对
+- Vite 实际端口已经自动跳到了 `5174`、`5175` 等
+
+解决方式：以终端里显示的 `Local` 地址为准，使用对应端口重新启动 tunnel。
+
+#### 2. 出现 Host not allowed
+当前 [vite.config.ts](vite.config.ts) 已放宽 `allowedHosts`，正常情况下不应再被 Cloudflare 随机域名拦截。如果仍出现，请重启 dev 服务后再重试。
 
 ### 停用 / 移除
 

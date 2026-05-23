@@ -4,7 +4,8 @@
       "WebFetch(domain:moody-beers-repair.loca.lt)",
       "Bash(git -C \"/d/project/Type_Indicator/mbti\" log --stat --oneline --all -- \"package.json\" \"vite.config.ts\" \"README.md\" \"devtools/tunnel\" \"package-lock.json\")",
       "Bash(cloudflared --version)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(npm run:*)"
     ]
   }
 }

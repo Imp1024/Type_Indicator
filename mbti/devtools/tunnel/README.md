@@ -27,34 +27,93 @@ cloudflared --version
 
 ## 用法
 
-先在项目根目录启动本地站点：
+### 开发环境
+
+先启动本地开发服务：
 
 ```bash
 npm run dev
 ```
 
-再在另一个终端启动 tunnel：
+请以终端里实际显示的 `Local` 地址为准。例如：
+
+```text
+http://localhost:5174/Type_Indicator/mbti/
+```
+
+如果端口不是 `5173`，需要按实际端口启动 tunnel。
+
+在 PowerShell 中：
+
+```powershell
+$env:TUNNEL_PORT=5174; npm run tunnel
+```
+
+在 cmd 中：
+
+```cmd
+set TUNNEL_PORT=5174 && npm run tunnel
+```
+
+如果 Vite 实际就是 `5173`，也可以直接执行：
 
 ```bash
 npm run tunnel
 ```
 
-如果你想暴露 preview 服务：
+执行后终端会输出一个临时外网地址，通常形如：
+
+```text
+https://xxxx.trycloudflare.com
+```
+
+如果项目配置了 `base` 路径，例如当前项目使用：
+
+```text
+/Type_Indicator/mbti/
+```
+
+那么外部访问时请优先打开：
+
+```text
+https://xxxx.trycloudflare.com/Type_Indicator/mbti/
+```
+
+### 预览环境
+
+如果你更希望外部看到更接近正式部署的静态结果：
 
 ```bash
 npm run preview
-npm run tunnel:preview
 ```
+
+然后按 preview 实际端口启动 tunnel。
+
+PowerShell 示例：
+
+```powershell
+$env:TUNNEL_PORT=4173; npm run tunnel
+```
+
+如果 preview 实际端口不是 `4173`，同样要替换成终端里显示的真实端口。
 
 ## 可选环境变量
 
 - `TUNNEL_PORT`：指定映射端口，默认 `5173`
 
-示例：
+## 常见问题
 
-```bash
-TUNNEL_PORT=4173 npm run tunnel
-```
+### 1. 出现 `502 Bad Gateway`
+通常表示 tunnel 已启动，但连不到本地 origin 服务。常见原因：
+
+- `npm run dev` / `npm run preview` 没有运行
+- tunnel 连的端口不对
+- Vite 实际端口已经自动跳到了 `5174`、`5175` 等
+
+解决方式：以终端里显示的 `Local` 地址为准，使用对应端口重新启动 tunnel。
+
+### 2. 出现 Host not allowed
+当前 [vite.config.ts](../../vite.config.ts) 已放宽 `allowedHosts`，正常情况下不应再被 Cloudflare 随机域名拦截。如果仍出现，请重启 dev 服务后再重试。
 
 ## 停用方式
 
