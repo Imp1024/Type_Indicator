@@ -1,0 +1,8 @@
+# Optional tunnel local state
+.devtools-local/
+*.tunnel.json
+*.tunnel.yml
+*.tunnel.yaml
+cloudflared*.json
+cloudflared*.yml
+cloudflared*.yaml

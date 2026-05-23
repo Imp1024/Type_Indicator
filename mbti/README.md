@@ -57,16 +57,86 @@ npm run preview
 ## 常用命令汇总
 
 ```bash
-npm install      # 安装依赖
-npm run dev      # 启动开发环境
-npm run build    # 生产构建
-npm run preview  # 预览构建结果
+npm install         # 安装依赖
+npm run dev         # 启动开发环境
+npm run build       # 生产构建
+npm run preview     # 预览构建结果
+npm run tunnel      # 将本地 dev 服务暴露到外网
+npm run tunnel:preview # 将本地 preview 服务暴露到外网
 ```
+
+## 外网临时访问（独立 tunnel 功能）
+
+如果你想让外网设备临时访问当前静态网页，可以使用项目内单独拆分出来的 tunnel 辅助功能。
+
+特点：
+
+- 仅用于本地开发、测试、演示
+- 与 `src/` 业务代码分离
+- 不参与 `build` 产物
+- 后续部署到 GitHub Pages、Vercel、Cloudflare Pages 等公网平台时可直接停用或删除
+
+相关目录：
+
+- [devtools/tunnel/](devtools/tunnel/)
+
+当前默认方案为 `Cloudflare Tunnel Quick Tunnel`。
+
+在使用前，请先确认本机已安装：
+
+```bash
+cloudflared --version
+```
+
+如果该命令不可用，请先安装 `cloudflared`。
+
+### 方式一：暴露开发环境
+
+先启动 Vite 开发服务：
+
+```bash
+npm run dev
+```
+
+再打开另一个终端执行：
+
+```bash
+npm run tunnel
+```
+
+执行后终端会输出一个临时外网地址，通常形如：
+
+```text
+https://xxxx.trycloudflare.com
+```
+
+外部设备可直接通过该地址访问当前页面。
+
+### 方式二：暴露预览环境
+
+如果你更希望外部看到更接近正式部署的静态结果：
+
+```bash
+npm run preview
+npm run tunnel:preview
+```
+
+### 停用 / 移除
+
+后续如果准备部署到正式公网静态平台，可以直接移除这套能力：
+
+1. 删除 [devtools/tunnel/](devtools/tunnel/)
+2. 删除 `package.json` 中的 tunnel scripts
+3. 删除本节文档
+
+这样不会影响原本的 `npm run dev`、`npm run build`、`npm run preview`。
 
 ## 项目结构
 
 ```text
 mbti/
+├─ devtools/
+│  └─ tunnel/               # 独立的外网访问辅助功能（Cloudflare Tunnel）
 ├─ src/
 │  ├─ core/                 # 计分、结果构建、本地存储
 │  ├─ data/                 # 题库、步骤配置、人格资料

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tunnel": "node ./devtools/tunnel/start-cloudflare-tunnel.mjs 5173",
+    "tunnel:preview": "node ./devtools/tunnel/start-cloudflare-tunnel.mjs 4173"
   },
   "devDependencies": {
     "typescript": "^5.8.3",
