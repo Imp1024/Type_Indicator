@@ -38,7 +38,7 @@ npm run dev
 请以终端里实际显示的 `Local` 地址为准。例如：
 
 ```text
-http://localhost:5174/Type_Indicator/mbti/
+http://localhost:5174/Type_Indicator/
 ```
 
 如果端口不是 `5173`，需要按实际端口启动 tunnel。
@@ -70,13 +70,13 @@ https://xxxx.trycloudflare.com
 如果项目配置了 `base` 路径，例如当前项目使用：
 
 ```text
-/Type_Indicator/mbti/
+/Type_Indicator/
 ```
 
 那么外部访问时请优先打开：
 
 ```text
-https://xxxx.trycloudflare.com/Type_Indicator/mbti/
+https://xxxx.trycloudflare.com/Type_Indicator/
 ```
 
 ### 预览环境
