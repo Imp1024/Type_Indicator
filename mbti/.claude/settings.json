@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Read(//d/project/Type_Indicator/**)",
+      "Bash(cp -R \"/d/project/mbti/src\" \"/d/project/Type_Indicator/src\")",
+      "Bash(cp -R \"/d/project/mbti/.claude\" \"/d/project/Type_Indicator/.claude\")",
+      "Bash(rm -rf \"/d/project/mbti/src\" \"/d/project/mbti/.claude\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
